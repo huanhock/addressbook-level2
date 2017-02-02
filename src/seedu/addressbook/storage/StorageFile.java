@@ -11,6 +11,7 @@ import javax.xml.bind.Unmarshaller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -116,7 +117,7 @@ public class StorageFile {
      *
      * @throws StorageOperationException if there were errors reading and/or converting data from file.
      */
-    public AddressBook load() throws StorageOperationException {
+    public AddressBook load() throws StorageOperationException, FileNotFoundException {
         try (final Reader fileReader =
                      new BufferedReader(new FileReader(path.toFile()))) {
 
@@ -133,10 +134,9 @@ public class StorageFile {
          * situation (i.e. not truly exceptional) we should not use an exception to handle it.
          */
 
-        // create empty file if not found
+        // throw FileNotFound if not found
         } catch (FileNotFoundException fnfe) {
-            throw new StorageOperationException("Error finding file: " + path);
-
+            throw new FileNotFoundException("Error finding file: " + path);
         // other errors
         } catch (IOException ioe) {
             throw new StorageOperationException("Error writing to file: " + path);
@@ -145,6 +145,14 @@ public class StorageFile {
         } catch (IllegalValueException ive) {
             throw new StorageOperationException("File contains illegal data values; data type constraints not met");
         }
+    }
+    
+    public void check() throws FileNotFoundException {
+        File file = new File(getPath());
+        if (!file.exists()) {
+            throw new FileNotFoundException("Error finding file: " + getPath());
+        }
+
     }
 
     public String getPath() {

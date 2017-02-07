@@ -10,16 +10,19 @@ import java.util.Objects;
  */
 public class Person implements ReadOnlyPerson {
 
+    private static int nextSequenceNumber;
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
+    private int sequenceNumber;
 
     private final UniqueTagList tags;
     /**
      * Assumption: Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, UniqueTagList tags) {
+        this.sequenceNumber = nextSequenceNumber++;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -52,6 +55,10 @@ public class Person implements ReadOnlyPerson {
     @Override
     public Address getAddress() {
         return address;
+    }
+    
+    public int getSequenceNumber() {
+        return sequenceNumber;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package seedu.addressbook.data.person;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
+
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.data.tag.UniqueTagList;
 
@@ -9,6 +11,7 @@ import seedu.addressbook.data.tag.UniqueTagList;
  */
 public interface ReadOnlyPerson {
 
+    public static final String SEPARATOR = ", ";
     Name getName();
     Phone getPhone();
     Email getEmail();
@@ -83,4 +86,17 @@ public interface ReadOnlyPerson {
         }
         return builder.toString();
     }
+    
+    /**
+     * Returns a concatenated version of the printable strings of each object.
+     */
+   default String getPrintableString(Printable... printables){
+       String printableString = "";
+       for (Printable printable : printables) {
+           printableString += printable.getPrintableString();
+           printableString += SEPARATOR;
+       }
+       printableString = printableString.substring(0, -2);
+       return printableString;
+   }
 }

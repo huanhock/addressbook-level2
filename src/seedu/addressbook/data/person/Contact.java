@@ -1,7 +1,5 @@
 package seedu.addressbook.data.person;
 
-import seedu.addressbook.data.exception.IllegalValueException;
-
 /**
  * Represents a Contact parent class in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
